@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Aplication.Requests.Planes
 {
-    public class PlanListaCotizadaRequest
+    public class BuscarPlanRequest
     {
-        public int Cotizacion { get; set; }
+        public int Id { get; set; }
     }
 }

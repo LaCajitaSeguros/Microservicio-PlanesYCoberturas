@@ -19,9 +19,16 @@ namespace Planes.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListaPlanesCotizados([FromQuery]PlanListaCotizadaRequest request)
+        public async Task<IActionResult> PlanesCotizados([FromQuery]PlanesCotizadosRequest request)
         {
-            var result = await _service.PlanListaCotizada(request);
+            var result = await _service.PlanesCotizadados(request);
+            return new JsonResult(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> BuscarPLan([FromQuery] BuscarPlanRequest request)
+        {
+            var result = await _service.BuscarPlan(request);
             return new JsonResult(result);
         }
     }

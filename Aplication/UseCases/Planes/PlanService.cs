@@ -7,6 +7,7 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,10 +24,9 @@ namespace Aplication.UseCases.Planes
             _mapper = mapper;
         }
 
-        public async Task<List<PlanDto>> PlanListaCotizada(PlanListaCotizadaRequest request)
+        public async Task<List<PlanCotizadoDto>> PlanesCotizadados(PlanesCotizadosRequest request)
         {
-            try
-            {
+
                 var planes = await _query.ObtenerPlanPorCotizacion(request.Cotizacion);
 
                 foreach (var plan in planes)
@@ -34,13 +34,24 @@ namespace Aplication.UseCases.Planes
                     plan.CalcularPrima(request.Cotizacion);
                 }   
 
-                var planesDto = _mapper.Map<List<PlanDto>>(planes);
-                //await _command.InsertProduct(product);
-                return planesDto;
-            }
-            catch (Exception e)
+                var planesDto = _mapper.Map<List<PlanCotizadoDto>>(planes);
+                return planesDto;        
+        }
+        
+        public async Task<PlanDto> BuscarPlan(BuscarPlanRequest request)
+        {
+                var plan = await _query.ObtenerPlanPorId(request.Id);
+                Validacion(plan, request);
+
+                var planDto = _mapper.Map<PlanDto>(plan);
+                return planDto;         
+        }
+
+        public void Validacion(Plan plan, BuscarPlanRequest request)
+        {
+            if(plan is null)
             {
-                return null;
+                throw new Exception($"No existe un plan con el Id {request.Id}");
             }
         }
     }

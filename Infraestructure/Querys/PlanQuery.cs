@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Querys
 {
-    public class PlanQuery :IPlanQuery
+    public class PlanQuery : IPlanQuery
     {
         private readonly PlanesContext _context;
 
@@ -21,20 +21,26 @@ namespace Infraestructure.Querys
         public async Task<List<Plan>> ObtenerPlanPorCotizacion(int cotizacion)
         {
             var qeury = _context.Plan
-   .Include(p => p.Criterios.Where(c => c.Criterio.CotizacionMinima >= cotizacion && c.Criterio.CotizacionMaxima <= cotizacion))
-   .ToQueryString();
-
-            //var planes = await _context.Plan
-            //    .Include(p => p.Criterios.Where(c => c.Criterio.CotizacionMinima >= cotizacion && c.Criterio.CotizacionMaxima <= cotizacion))
-            //    .ToListAsync();
+               .Include(p => p.Criterios.Where(c => c.Criterio.CotizacionMinima >= cotizacion && c.Criterio.CotizacionMaxima <= cotizacion))
+               .ToQueryString();
 
             var planes = await _context.Plan
-                .Where(p=>p.Criterios.Any(c=>c.Criterio.CotizacionMinima <= cotizacion && c.Criterio.CotizacionMaxima >= cotizacion))
-                .Include(p => p.Criterios).ThenInclude(c=>c.Criterio)
-                .Include(p => p.Coberturas).ThenInclude(c=>c.Cobertura)
+                .Where(p => p.Criterios.Any(c => c.Criterio.CotizacionMinima <= cotizacion && c.Criterio.CotizacionMaxima >= cotizacion))
+                .Include(p => p.Criterios).ThenInclude(c => c.Criterio)
+                .Include(p => p.Coberturas).ThenInclude(c => c.Cobertura)
                 .ToListAsync();
 
             return planes;
+        }
+
+        public async Task<Plan> ObtenerPlanPorId(int id)
+        {
+            var plan = await _context.Plan
+                .Where(p => p.Id == id)
+                .Include(p => p.Coberturas).ThenInclude(c => c.Cobertura)
+                .FirstOrDefaultAsync();
+
+            return plan;
         }
     }
 }

@@ -13,11 +13,11 @@ namespace Aplication.Mappers.Planes
     {
         public PlanMappingProfiles()
         {
-            CreateMap<Plan, PlanDto>()
+            CreateMap<Plan, PlanCotizadoDto>()
                 .ForMember(dest => dest.Prima, opt => opt.MapFrom(src => src.ObtenerPrima()));
             CreateMap<PlanCobertura, PlanCoberturaDto>()
-                .ForMember(dest => dest.Descripcion, opt => opt.MapFrom(src => src.Cobertura.Descripcion)
-        );
+                .ForMember(dest => dest.Descripcion, opt => opt.MapFrom(src => src.Cobertura.Descripcion));
+            CreateMap<Plan, PlanDto>();
 
         }
     }

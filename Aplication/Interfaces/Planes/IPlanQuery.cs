@@ -10,5 +10,6 @@ namespace Aplication.Interfaces.Planes
     public interface IPlanQuery
     {
         Task<List<Plan>> ObtenerPlanPorCotizacion(int cotizacion);
+        Task<Plan> ObtenerPlanPorId(int id);
     }
 }
