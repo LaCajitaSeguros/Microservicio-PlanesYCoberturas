@@ -11,7 +11,7 @@ namespace Aplication.Interfaces.Planes
 {
     public interface IPlanService
     {
-        Task<PlanDto> BuscarPlan(BuscarPlanRequest request);
-        Task<List<PlanCotizadoDto>> PlanesCotizadados(PlanesCotizadosRequest request);
+        Task<Result> BuscarPlan(BuscarPlanRequest request);
+        Task<Result> PlanesCotizadados(PlanesCotizadosRequest request);
     }
 }

@@ -24,34 +24,48 @@ namespace Aplication.UseCases.Planes
             _mapper = mapper;
         }
 
-        public async Task<List<PlanCotizadoDto>> PlanesCotizadados(PlanesCotizadosRequest request)
+        public async Task<Result> PlanesCotizadados(PlanesCotizadosRequest request)
         {
 
-                var planes = await _query.ObtenerPlanPorCotizacion(request.Cotizacion);
+            var planes = await _query.ObtenerPlanPorCotizacion(request.Cotizacion);
 
-                foreach (var plan in planes)
-                {
-                    plan.CalcularPrima(request.Cotizacion);
-                }   
-
-                var planesDto = _mapper.Map<List<PlanCotizadoDto>>(planes);
-                return planesDto;        
-        }
-        
-        public async Task<PlanDto> BuscarPlan(BuscarPlanRequest request)
-        {
-                var plan = await _query.ObtenerPlanPorId(request.Id);
-                Validacion(plan, request);
-
-                var planDto = _mapper.Map<PlanDto>(plan);
-                return planDto;         
-        }
-
-        public void Validacion(Plan plan, BuscarPlanRequest request)
-        {
-            if(plan is null)
+            foreach (var plan in planes)
             {
-                throw new Exception($"No existe un plan con el Id {request.Id}");
+                plan.CalcularPrima(request.Cotizacion);
+            }
+
+            var planesDto = _mapper.Map<List<PlanCotizadoDto>>(planes);
+
+            return new Result(planesDto, HttpStatusCode.OK);
+        }
+
+        public async Task<Result> BuscarPlan(BuscarPlanRequest request)
+        {
+            var plan = await _query.ObtenerPlanPorId(request.Id);
+            var error = Validaciones(plan, request);
+
+            if (error is not null)
+            {
+                return new Result(error, HttpStatusCode.BadRequest);
+            }
+
+            else
+            {
+                var planDto = _mapper.Map<PlanDto>(plan);
+                return new Result(planDto, HttpStatusCode.OK);
+            }
+        }
+
+        public Error Validaciones(Plan plan, BuscarPlanRequest request)
+        {
+            if (plan is null)
+            {
+                return new Error($"No existe un plan con el Id {request.Id}");
+            }
+
+            else
+            {
+                return null;
             }
         }
     }

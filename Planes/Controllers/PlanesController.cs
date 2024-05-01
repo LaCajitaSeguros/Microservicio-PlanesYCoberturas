@@ -22,14 +22,14 @@ namespace Planes.Controllers
         public async Task<IActionResult> PlanesCotizados([FromQuery]PlanesCotizadosRequest request)
         {
             var result = await _service.PlanesCotizadados(request);
-            return new JsonResult(result);
+            return new JsonResult(result.Data) {StatusCode = (short)result.HttpStatusCode};
         }
 
         [HttpGet]
         public async Task<IActionResult> BuscarPLan([FromQuery] BuscarPlanRequest request)
         {
             var result = await _service.BuscarPlan(request);
-            return new JsonResult(result);
+            return new JsonResult(result.Data) { StatusCode = (short)result.HttpStatusCode };
         }
     }
 }
