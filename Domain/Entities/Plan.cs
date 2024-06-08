@@ -11,6 +11,7 @@ namespace Domain.Entities
         public int Id { get; set; }
         public string Nombre { get; set; }
 
+        public string Descripcion { get; set; }
         private decimal Prima {get;set;}
 
         public List<PlanCobertura> Coberturas { get; set; }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infraestructure.Migrations
 {
     [DbContext(typeof(PlanesContext))]
-    [Migration("20240420234721_EstructuraBaseDatos")]
+    [Migration("20240608141701_EstructuraBaseDatos")]
     partial class EstructuraBaseDatos
     {
         /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace Infraestructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.18")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -162,6 +162,10 @@ namespace Infraestructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -174,16 +178,19 @@ namespace Infraestructure.Migrations
                         new
                         {
                             Id = 1,
+                            Descripcion = "Es la cobertura básica y obligatoria para que todo automotor pueda circular, protegiendo al titular por los daños que el vehículo pueda ocasionar a terceros.",
                             Nombre = "Plan Basico"
                         },
                         new
                         {
                             Id = 2,
+                            Descripcion = "Nuestro seguro para autos es perfecto para estar preparado ante los imprevistos de la calle. Es el indicado para quienes quieren un nivel de protección alto a un precio moderado.",
                             Nombre = "Plan Intermedio"
                         },
                         new
                         {
                             Id = 3,
+                            Descripcion = "Es el seguro ideal para quienes prestan especial atención a los detalles y quieren la mejor protección para su vehículo. Es la cobertura por excelencia y la más completa de nuestro portfolio.",
                             Nombre = "Plan Full"
                         });
                 });

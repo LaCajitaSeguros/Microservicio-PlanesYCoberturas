@@ -33,6 +33,16 @@ builder.Services.AddTransient<IPlanService, PlanService>();
 builder.Services.AddTransient<IPlanQuery, PlanQuery>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Configurar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .AllowAnyOrigin() // Permitir solicitudes desde cualquier origen
+            .AllowAnyMethod() // Permitir cualquier método (GET, POST, etc.)
+            .AllowAnyHeader()); // Permitir cualquier encabezado HTTP
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +53,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

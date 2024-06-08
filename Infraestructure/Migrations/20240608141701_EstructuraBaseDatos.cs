@@ -45,7 +45,8 @@ namespace Infraestructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,12 +139,12 @@ namespace Infraestructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Plan",
-                columns: new[] { "Id", "Nombre" },
+                columns: new[] { "Id", "Descripcion", "Nombre" },
                 values: new object[,]
                 {
-                    { 1, "Plan Basico" },
-                    { 2, "Plan Intermedio" },
-                    { 3, "Plan Full" }
+                    { 1, "Es la cobertura básica y obligatoria para que todo automotor pueda circular, protegiendo al titular por los daños que el vehículo pueda ocasionar a terceros.", "Plan Basico" },
+                    { 2, "Nuestro seguro para autos es perfecto para estar preparado ante los imprevistos de la calle. Es el indicado para quienes quieren un nivel de protección alto a un precio moderado.", "Plan Intermedio" },
+                    { 3, "Es el seguro ideal para quienes prestan especial atención a los detalles y quieren la mejor protección para su vehículo. Es la cobertura por excelencia y la más completa de nuestro portfolio.", "Plan Full" }
                 });
 
             migrationBuilder.InsertData(

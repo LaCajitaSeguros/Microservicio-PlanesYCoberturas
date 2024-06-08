@@ -64,9 +64,9 @@ namespace Infraestructure.Persistence
             
             //INSERCION DE DATOS.
             modelBuilder.Entity<Plan>().HasData(
-                new Plan { Id = 1, Nombre = "Plan Basico" },
-                new Plan { Id = 2, Nombre = "Plan Intermedio" },
-                new Plan { Id = 3, Nombre = "Plan Full" }
+                new Plan { Id = 1, Nombre = "Plan Basico", Descripcion = "Es la cobertura básica y obligatoria para que todo automotor pueda circular, protegiendo al titular por los daños que el vehículo pueda ocasionar a terceros."},
+                new Plan { Id = 2, Nombre = "Plan Intermedio", Descripcion = "Nuestro seguro para autos es perfecto para estar preparado ante los imprevistos de la calle. Es el indicado para quienes quieren un nivel de protección alto a un precio moderado."},
+                new Plan { Id = 3, Nombre = "Plan Full", Descripcion = "Es el seguro ideal para quienes prestan especial atención a los detalles y quieren la mejor protección para su vehículo. Es la cobertura por excelencia y la más completa de nuestro portfolio."}
             );
 
             modelBuilder.Entity<Cobertura>().HasData(
