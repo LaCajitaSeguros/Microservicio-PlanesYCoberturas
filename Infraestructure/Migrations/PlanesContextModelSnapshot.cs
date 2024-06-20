@@ -128,26 +128,26 @@ namespace Infraestructure.Migrations
                         new
                         {
                             Id = 2,
-                            CotizacionMaxima = 30000,
+                            CotizacionMaxima = 40000,
                             CotizacionMinima = 20001
                         },
                         new
                         {
                             Id = 3,
-                            CotizacionMaxima = 40000,
-                            CotizacionMinima = 30001
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CotizacionMaxima = 50000,
+                            CotizacionMaxima = 60000,
                             CotizacionMinima = 40001
                         },
                         new
                         {
+                            Id = 4,
+                            CotizacionMaxima = 80000,
+                            CotizacionMinima = 60001
+                        },
+                        new
+                        {
                             Id = 5,
-                            CotizacionMaxima = 60000,
-                            CotizacionMinima = 50001
+                            CotizacionMaxima = 100000,
+                            CotizacionMinima = 80001
                         });
                 });
 
