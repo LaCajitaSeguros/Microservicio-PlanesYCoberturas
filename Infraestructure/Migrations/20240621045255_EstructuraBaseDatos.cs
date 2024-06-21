@@ -130,11 +130,11 @@ namespace Infraestructure.Migrations
                 columns: new[] { "Id", "CotizacionMaxima", "CotizacionMinima" },
                 values: new object[,]
                 {
-                    { 1, 20000, 0 },
-                    { 2, 40000, 20001 },
-                    { 3, 60000, 40001 },
-                    { 4, 80000, 60001 },
-                    { 5, 100000, 80001 }
+                    { 1, 100000, 0 },
+                    { 2, 200000, 100001 },
+                    { 3, 300000, 200001 },
+                    { 4, 400000, 300001 },
+                    { 5, 500000, 400001 }
                 });
 
             migrationBuilder.InsertData(

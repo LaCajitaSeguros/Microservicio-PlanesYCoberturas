@@ -85,11 +85,11 @@ namespace Infraestructure.Persistence
             );
 
             modelBuilder.Entity<Criterio>().HasData(
-                new Criterio { Id = 1, CotizacionMinima = 0, CotizacionMaxima = 20000 },
-                new Criterio { Id = 2, CotizacionMinima = 20001, CotizacionMaxima = 40000 },
-                new Criterio { Id = 3, CotizacionMinima = 40001, CotizacionMaxima = 60000 },
-                new Criterio { Id = 4, CotizacionMinima = 60001, CotizacionMaxima = 80000 },
-                new Criterio { Id = 5, CotizacionMinima = 80001, CotizacionMaxima = 100000 }
+                new Criterio { Id = 1, CotizacionMinima = 0, CotizacionMaxima = 100000 },
+                new Criterio { Id = 2, CotizacionMinima = 100001, CotizacionMaxima = 200000 },
+                new Criterio { Id = 3, CotizacionMinima = 200001, CotizacionMaxima = 300000 },
+                new Criterio { Id = 4, CotizacionMinima = 300001, CotizacionMaxima = 400000 },
+                new Criterio { Id = 5, CotizacionMinima = 400001, CotizacionMaxima = 500000 }
             );
 
             modelBuilder.Entity<PlanCobertura>().HasData(
