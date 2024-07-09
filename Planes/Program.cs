@@ -1,9 +1,13 @@
 using Aplication.Interfaces;
 using Aplication.Interfaces.Categorias;
 using Aplication.Interfaces.Planes;
+using Aplication.Interfaces.Planes.BuscarPlan;
+using Aplication.Interfaces.Planes.PlanesCotizados;
 using Aplication.Interfaces.Products;
 using Aplication.UseCases.Categorias;
 using Aplication.UseCases.Planes;
+using Aplication.UseCases.Planes.BuscarPlan;
+using Aplication.UseCases.Planes.PlanesCotizados;
 using Aplication.UseCases.Products;
 using Infraestructure.Commands;
 using Infraestructure.Persistence;
@@ -31,6 +35,9 @@ builder.Services.AddTransient<IProductQuery, ProductQuery>();
 builder.Services.AddTransient<IProductCommand, ProductCommand>();
 builder.Services.AddTransient<IPlanService, PlanService>();
 builder.Services.AddTransient<IPlanQuery, PlanQuery>();
+builder.Services.AddTransient<IBuscarPlanValidaciones, BuscarPlanValidaciones>();
+builder.Services.AddTransient<IPlanesCotizadosValidaciones, PlanesCotizadosValidaciones>();
+builder.Services.AddTransient<IPlanesCotizadosCalcularPrima, PlanesCotizadosCalcularPrima>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Configurar CORS

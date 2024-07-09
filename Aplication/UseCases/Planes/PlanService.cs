@@ -1,5 +1,7 @@
 ﻿using Aplication.Dtos.Planes;
 using Aplication.Interfaces.Planes;
+using Aplication.Interfaces.Planes.BuscarPlan;
+using Aplication.Interfaces.Planes.PlanesCotizados;
 using Aplication.Interfaces.Products;
 using Aplication.Requests.Planes;
 using AutoMapper;
@@ -17,56 +19,50 @@ namespace Aplication.UseCases.Planes
     {
         private readonly IPlanQuery _query;
         private readonly IMapper _mapper;
+        private readonly IBuscarPlanValidaciones _buscarPlanValidaciones;
+        private readonly IPlanesCotizadosValidaciones _planesCotizadosValidaciones;
+        private readonly IPlanesCotizadosCalcularPrima _planesCotizadosCalcularPrima;
 
-        public PlanService(IPlanQuery query, IMapper mapper)
+        public PlanService(IPlanQuery query, IMapper mapper, IBuscarPlanValidaciones buscarPlanValidaciones, IPlanesCotizadosValidaciones planesCotizadosValidaciones, IPlanesCotizadosCalcularPrima planesCotizadosCalcularPrima)
         {
             _query = query;
             _mapper = mapper;
+            _buscarPlanValidaciones = buscarPlanValidaciones;
+            _planesCotizadosValidaciones = planesCotizadosValidaciones;
+            _planesCotizadosCalcularPrima = planesCotizadosCalcularPrima;
         }
 
         public async Task<Result> PlanesCotizadados(PlanesCotizadosRequest request)
         {
-
             var planes = await _query.ObtenerPlanPorCotizacion(request.Cotizacion);
+            var error = _planesCotizadosValidaciones.Validaciones(request, planes);
 
-            foreach (var plan in planes)
+            if (error is not null)
             {
-                plan.CalcularPrima(request.Cotizacion);
+                return Result.Error(error);
             }
 
+            _planesCotizadosCalcularPrima.CalcularPrima(request.Cotizacion, planes);
             var planesDto = _mapper.Map<List<PlanCotizadoDto>>(planes);
-
-            return new Result(planesDto, HttpStatusCode.OK);
+            return Result.SuccessOk(planesDto);
         }
 
         public async Task<Result> BuscarPlan(BuscarPlanRequest request)
         {
             var plan = await _query.ObtenerPlanPorId(request.Id);
-            var error = Validaciones(plan, request);
+            var error = _buscarPlanValidaciones.Validaciones(plan, request);
 
             if (error is not null)
             {
-                return new Result(error, HttpStatusCode.BadRequest);
+                return Result.Error(error);
             }
 
             else
             {
                 var planDto = _mapper.Map<PlanDto>(plan);
-                return new Result(planDto, HttpStatusCode.OK);
+                return Result.SuccessOk(planDto);
             }
         }
 
-        public Error Validaciones(Plan plan, BuscarPlanRequest request)
-        {
-            if (plan is null)
-            {
-                return new Error($"No existe un plan con el Id {request.Id}");
-            }
-
-            else
-            {
-                return null;
-            }
-        }
     }
 }

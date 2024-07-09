@@ -17,11 +17,16 @@ namespace Domain.Entities
         public List<PlanCobertura> Coberturas { get; set; }
         public List<PlanCriterio> Criterios { get; set; }
 
-        public void CalcularPrima(int cotizacion)
+        //public void CalcularPrima(int cotizacion)
+        //{
+        //    decimal porcentajeAumento = Convert.ToDecimal(Criterios.FirstOrDefault().PorcentajeAumento) / 100;
+        //    decimal recargo = porcentajeAumento * cotizacion;
+        //    Prima = cotizacion + recargo;
+        //}
+
+        public void SetPrima(decimal prima)
         {
-            decimal porcentajeAumento = Convert.ToDecimal(Criterios.FirstOrDefault().PorcentajeAumento) / 100;
-            decimal recargo = porcentajeAumento * cotizacion;
-            Prima = cotizacion + recargo;
+            Prima = prima;
         }
 
         public decimal ObtenerPrima()

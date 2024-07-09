@@ -9,13 +9,34 @@ namespace Aplication
 {
     public class Result
     {
-        public Result(object data, HttpStatusCode httpStatusCode)
-        {
-            Data = data;
-            HttpStatusCode = httpStatusCode;
-        }
-
         public object Data { get; set; }
         public HttpStatusCode HttpStatusCode { get; set; }
+
+        public static Result SuccessOk(object data)
+        {
+            return new Result
+            {
+                Data = data,
+                HttpStatusCode = HttpStatusCode.OK
+            };
+        }
+
+        public static Result SuccessCreated(object data)
+        {
+            return new Result
+            {
+                Data = data,
+                HttpStatusCode = HttpStatusCode.Created
+            };
+        }
+
+        public static Result Error(Error data)
+        {
+            return new Result
+            {
+                Data = data,
+                HttpStatusCode = data.HttpStatusCode
+            };
+        }
     }
 }
