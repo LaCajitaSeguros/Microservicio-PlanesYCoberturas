@@ -4,6 +4,7 @@ using Aplication.Interfaces.Planes.BuscarPlan;
 using Aplication.Interfaces.Planes.PlanesCotizados;
 using Aplication.Interfaces.Products;
 using Aplication.Requests.Planes;
+using Aplication.UseCases.Planes.PlanesCotizados;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -22,14 +23,16 @@ namespace Aplication.UseCases.Planes
         private readonly IBuscarPlanValidaciones _buscarPlanValidaciones;
         private readonly IPlanesCotizadosValidaciones _planesCotizadosValidaciones;
         private readonly IPlanesCotizadosCalcularPrima _planesCotizadosCalcularPrima;
+        private readonly IPlanesCotizadosMapper _planesCotizadosMapper;
 
-        public PlanService(IPlanQuery query, IMapper mapper, IBuscarPlanValidaciones buscarPlanValidaciones, IPlanesCotizadosValidaciones planesCotizadosValidaciones, IPlanesCotizadosCalcularPrima planesCotizadosCalcularPrima)
+        public PlanService(IPlanQuery query, IMapper mapper, IBuscarPlanValidaciones buscarPlanValidaciones, IPlanesCotizadosValidaciones planesCotizadosValidaciones, IPlanesCotizadosCalcularPrima planesCotizadosCalcularPrima, IPlanesCotizadosMapper planesCotizadosMapper)
         {
             _query = query;
             _mapper = mapper;
             _buscarPlanValidaciones = buscarPlanValidaciones;
             _planesCotizadosValidaciones = planesCotizadosValidaciones;
             _planesCotizadosCalcularPrima = planesCotizadosCalcularPrima;
+            _planesCotizadosMapper = planesCotizadosMapper;
         }
 
         public async Task<Result> PlanesCotizadados(PlanesCotizadosRequest request)
@@ -43,7 +46,7 @@ namespace Aplication.UseCases.Planes
             }
 
             _planesCotizadosCalcularPrima.CalcularPrima(request.Cotizacion, planes);
-            var planesDto = _mapper.Map<List<PlanCotizadoDto>>(planes);
+            var planesDto = _planesCotizadosMapper.Mapear(planes);
             return Result.SuccessOk(planesDto);
         }
 

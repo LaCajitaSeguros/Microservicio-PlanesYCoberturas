@@ -22,8 +22,10 @@ namespace UnitTest
             var mockQuery = new Mock<IPlanQuery>();
             var mockMapper = new Mock<IMapper>();
             var mockPlanesCotizadosValidaciones = new Mock<IPlanesCotizadosValidaciones>();
+            var mockPlanesCotizadosCalcularPrima = new Mock<IPlanesCotizadosCalcularPrima>();
+            var mockPlanesCotizadosMapper = new Mock<IPlanesCotizadosMapper>();
             var validaciones = new BuscarPlanValidaciones();
-            var service = new PlanService(mockQuery.Object, mockMapper.Object, validaciones, mockPlanesCotizadosValidaciones.Object);
+            var service = new PlanService(mockQuery.Object, mockMapper.Object, validaciones, mockPlanesCotizadosValidaciones.Object, mockPlanesCotizadosCalcularPrima.Object, mockPlanesCotizadosMapper.Object);
 
             var plan = new Plan
             {
@@ -59,22 +61,13 @@ namespace UnitTest
             var mockQuery = new Mock<IPlanQuery>();
             var mockMapper = new Mock<IMapper>();
             var mockPlanesCotizadosValidaciones = new Mock<IPlanesCotizadosValidaciones>();
+            var mockPlanesCotizadosCalcularPrima = new Mock<IPlanesCotizadosCalcularPrima>();
+            var mockPlanesCotizadosMapper = new Mock<IPlanesCotizadosMapper>();
             var validaciones = new BuscarPlanValidaciones();
-            var service = new PlanService(mockQuery.Object, mockMapper.Object, validaciones, mockPlanesCotizadosValidaciones.Object);
-
-            var plan = new Plan
-            {
-                Nombre = "Full",
-                Descripcion = "Plan que cubre todas las coberturas"
-            };
-
-            var planDto = new PlanDto
-            {
-                Nombre = plan.Nombre
-            };
+            var service = new PlanService(mockQuery.Object, mockMapper.Object, validaciones, mockPlanesCotizadosValidaciones.Object, mockPlanesCotizadosCalcularPrima.Object, mockPlanesCotizadosMapper.Object);
 
             mockQuery.Setup(q => q.ObtenerPlanPorId(It.IsAny<int>())).ReturnsAsync((Plan)null);
-            mockMapper.Setup(q => q.Map<PlanDto>(plan)).Returns(planDto);
+            mockMapper.Setup(q => q.Map<PlanDto>((Plan)null)).Returns((PlanDto)null);
 
             var request = new BuscarPlanRequest
             {

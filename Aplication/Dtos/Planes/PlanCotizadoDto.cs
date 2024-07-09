@@ -13,7 +13,7 @@ namespace Aplication.Dtos.Planes
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         
-        public int Prima { get; set; }
+        public decimal Prima { get; set; }
         public List<PlanCoberturaDto> Coberturas { get; set; }
     }
 }

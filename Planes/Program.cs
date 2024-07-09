@@ -38,6 +38,7 @@ builder.Services.AddTransient<IPlanQuery, PlanQuery>();
 builder.Services.AddTransient<IBuscarPlanValidaciones, BuscarPlanValidaciones>();
 builder.Services.AddTransient<IPlanesCotizadosValidaciones, PlanesCotizadosValidaciones>();
 builder.Services.AddTransient<IPlanesCotizadosCalcularPrima, PlanesCotizadosCalcularPrima>();
+builder.Services.AddTransient<IPlanesCotizadosMapper, PlanesCotizadosMapper>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Configurar CORS
