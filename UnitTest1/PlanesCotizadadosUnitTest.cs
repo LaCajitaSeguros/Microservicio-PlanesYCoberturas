@@ -18,6 +18,8 @@ using Aplication.UseCases.Planes.PlanesCotizados;
 using Aplication.Interfaces.Planes.BuscarPlan;
 using Aplication.Interfaces.Planes.PlanesCotizados;
 using System.Numerics;
+using Aplication;
+using Error = Aplication.Error;
 
 namespace UnitTest
 {
@@ -53,6 +55,39 @@ namespace UnitTest
             //Assert
             var resultPlanesDto = result.Data.As<List<PlanCotizadoDto>>();
             resultPlanesDto.Should().BeEquivalentTo(planesDto);
+        }
+
+        [Fact]
+        public async Task PlanesCotizadados_ShouldReturnSuccess_200()
+        {
+            //Arrange.
+            var mockQuery = new Mock<IPlanQuery>();
+            var mockMapper = new Mock<IMapper>();
+            var mockBuscarPlanValidaciones = new Mock<IBuscarPlanValidaciones>();
+            var mockPlanesCotizadosCalcularPrima = new Mock<IPlanesCotizadosCalcularPrima>();
+            var mockPlanesCotizadosMapper = new Mock<IPlanesCotizadosMapper>();
+            var mockPlanesCotizadosValidaciones = new Mock<IPlanesCotizadosValidaciones>();
+            var service = new PlanService(mockQuery.Object, mockMapper.Object, mockBuscarPlanValidaciones.Object, mockPlanesCotizadosValidaciones.Object, mockPlanesCotizadosCalcularPrima.Object, mockPlanesCotizadosMapper.Object);
+
+            var planes = CrearPlanes();
+            List<PlanCotizadoDto> planesDto = new List<PlanCotizadoDto>();
+
+            mockQuery.Setup(q => q.ObtenerPlanPorCotizacion(It.IsAny<int>())).ReturnsAsync(planes);
+            mockMapper.Setup(q => q.Map<List<PlanCotizadoDto>>(planes)).Returns(planesDto);
+
+            var request = new PlanesCotizadosRequest
+            {
+                Cotizacion = 10000
+            };
+
+            mockPlanesCotizadosValidaciones.Setup(q => q.Validaciones(request, planes)).Returns((Error)null);
+
+
+            //Act
+            var result = await service.PlanesCotizadados(request);
+
+            //Assert
+            result.HttpStatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]

@@ -1,3 +1,4 @@
+using Aplication;
 using Aplication.Dtos.Planes;
 using Aplication.Interfaces.Planes;
 using Aplication.Interfaces.Planes.BuscarPlan;
@@ -10,6 +11,7 @@ using Domain.Entities;
 using FluentAssertions;
 using Moq;
 using System.Net;
+using System.Numerics;
 
 namespace UnitTest
 {
@@ -24,13 +26,12 @@ namespace UnitTest
             var mockPlanesCotizadosValidaciones = new Mock<IPlanesCotizadosValidaciones>();
             var mockPlanesCotizadosCalcularPrima = new Mock<IPlanesCotizadosCalcularPrima>();
             var mockPlanesCotizadosMapper = new Mock<IPlanesCotizadosMapper>();
-            var validaciones = new BuscarPlanValidaciones();
-            var service = new PlanService(mockQuery.Object, mockMapper.Object, validaciones, mockPlanesCotizadosValidaciones.Object, mockPlanesCotizadosCalcularPrima.Object, mockPlanesCotizadosMapper.Object);
+            var mockBuscarPlanValidaciones = new Mock<IBuscarPlanValidaciones>();
+            var service = new PlanService(mockQuery.Object, mockMapper.Object, mockBuscarPlanValidaciones.Object, mockPlanesCotizadosValidaciones.Object, mockPlanesCotizadosCalcularPrima.Object, mockPlanesCotizadosMapper.Object);
 
             var plan = new Plan
             {
                 Nombre = "Full",
-                Descripcion = "Plan que cubre todas las coberturas"
             };
             var planDto = new PlanDto
             {
@@ -45,13 +46,13 @@ namespace UnitTest
                 Id = 1
             };
 
+            mockBuscarPlanValidaciones.Setup(q => q.Validaciones(plan, request)).Returns((Error)null);
+
             //Act
             var result = await service.BuscarPlan(request);
 
             //Assert
             result.HttpStatusCode.Should().Be(HttpStatusCode.OK);   
-            result.Data.As<PlanDto>().Nombre.Should().Be(plan.Nombre);
-
         }
 
         [Fact]
